@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<script type="text/javascript" src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+<script type="text/javascript" type="text/javascript">
+  // Connecting to ROS
+  // -----------------
+
+  var ros = new ROSLIB.Ros({
+    url : 'ws://192.168.0.105:9090'		//Use IP Address of destination
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+
+  // Publishing a Topic
+  // ------------------
+
+  var cmdVel = new ROSLIB.Topic({
+    ros : ros,
+    name : '/cmd_vel',
+    messageType : 'geometry_msgs/Twist'
+  });
+
+  var twist = new ROSLIB.Message({
+    linear : {
+      x : 0,
+      y : 0,
+      z : 0
+    },
+    angular : {
+      x : 1,
+      y : 2,
+      z : 3
+    }
+  });
+
+  /* This function:
+   - retrieves numeric values from the text boxes
+   - assigns these values to the appropriate values in the twist message
+   - publishes the message to the cmd_vel topic.
+  */
+  function pubMessage() {
+    /**
+    Set the appropriate values on the twist message object according to values in text boxes
+    It seems that turtlesim only uses the x property of the linear object 
+    and the z property of the angular object
+    **/
+    var linear = 0.0;
+    var angular = 0.0;
+
+    // get values from text input fields. Note for simplicity we are not validating.
+    linear = 0 + Number(document.getElementById('linearText').value);
+    angular = 0 + Number(document.getElementById('angularText').value);
+
+    // Set the appropriate values on the message object
+    twist.linear.x = linear;
+    twist.angular.x = angular;
+
+    // Publish the message 
+    cmdVel.publish(twist);
+
+}
+  
+</script>
+</head>
+
+<body>
+  <h1>PerFoRo</h1>
+  <form name=ÒData transmitÓ>
+  <p>Enter the data to transmit in the boxes below. Data is transmitted in ROS Message named 'geometry_msgs/Twist' </p>
+  <table>
+    <tr><td>Linear</td><td><input id="linearText" name="linearText" type="text"/></td></tr>
+    <tr><td>Angular</td><td><input id="angularText" name="angularText" type="text"/></td></tr>
+  </table>
+  <button id="sendMsg" type="button" onclick="pubMessage()">Transmit To PerFoRo</button>
+  </form>
+  <p>
+  <img src="http://192.168.0.105:8080/stream?topic=/usb_cam/image_raw">	
+  <p>
+</body>
+</html>
