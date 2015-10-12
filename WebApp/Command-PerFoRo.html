@@ -96,6 +96,34 @@
     cmdVel.publish(twist);
 
     }
+
+    function NavigatePerFoRoFront() {
+    twist.angular.x = 1;
+    window.alert(1);
+    // Publish the message
+    cmdVel.publish(twist);
+    }
+
+    function NavigatePerFoRoBack() {
+    twist.angular.x = 2;
+    window.alert(2);
+    // Publish the message
+    cmdVel.publish(twist);
+    }
+
+    function NavigatePerFoRoLeft() {
+    twist.angular.x = 3;
+    window.alert(3);
+    // Publish the message
+    cmdVel.publish(twist);
+    }
+
+    function NavigatePerFoRoRight() {
+    twist.angular.x = 4;
+    window.alert(4);
+    // Publish the message
+    cmdVel.publish(twist);
+    }
   
 </script>
 </head>
@@ -111,9 +139,13 @@
   <button id="sendMsg" type="button" onclick="pubMessage()">Transmit To PerFoRo</button>
   </form>
   <p>
-  <button id=ÒModeManualÓ type="button" onclick=ÒChangeModeToManual()Ó>Manual Mode</button>
+  <button id="ModeManual" type="button" onclick="ChangeModeToManual()">Manual Mode</button>
+  <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRoFront()">FRONT</button>
+  <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRoBack()">BACK</button>
+  <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRoLeft()">LEFT</button>
+  <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRoRight()">RIGHT</button>
   <p>
-  <button id=ÒModeObstacleAvoidanceÓ type="button" onclick=ÒChangeModeToObstacleAvoidance()Ó>Obstacle Avoidance Mode</button>
+  <button id="ModeObstacleAvoidance" type="button" onclick="ChangeModeToObstacleAvoidance()">Obstacle Avoidance Mode</button>
   <p>
   <img src="http://192.168.0.105:8080/stream?topic=/usb_cam/image_raw">	
   <p>
