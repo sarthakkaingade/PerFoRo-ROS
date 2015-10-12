@@ -121,9 +121,9 @@
 </head>
 
 <body>
-  <h1>PerFoRo</h1>
-  <form name=ÒData transmitÓ>
-  <p>Enter the data to transmit in the boxes below. Data is transmitted in ROS Message named 'geometry_msgs/Twist' </p>
+  <h1 align="center">PerFoRo Control Station</h1>
+  <form name="Data transmit">
+  <p></p>
   <table>
     <tr><td>Linear</td><td><input id="linearText" name="linearText" type="text"/></td></tr>
     <tr><td>Angular</td><td><input id="angularText" name="angularText" type="text"/></td></tr>
@@ -132,10 +132,10 @@
   </form>
   <p>
   <button id="ModeManual" type="button" onclick="CommandMode(1)">Manual Mode</button>
-  <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRo(1)">FRONT</button>
-  <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">BACK</button>
-  <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">LEFT</button>
-  <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">RIGHT</button>
+  <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRo(1)">Front</button>
+  <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">Back</button>
+  <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">Left</button>
+  <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">Right</button>
   <p>
   <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
   <p>
