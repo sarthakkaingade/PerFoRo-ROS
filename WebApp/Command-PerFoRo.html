@@ -86,6 +86,11 @@
     		twist.linear.x = 0;
     		twist.linear.y = 1;
     		twist.linear.z = 0;
+	} else if (command == 3)	{
+		// Set Obstacle Avoidance Mode
+    		twist.linear.x = 0;
+    		twist.linear.y = 0;
+    		twist.linear.z = 1;
 	}
 
     // Publish the message
@@ -133,6 +138,8 @@
   <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">RIGHT</button>
   <p>
   <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
+  <p>
+  <button id="ModeStop" type="button" onclick="CommandMode(3)">STOP</button>
   <p>
   <img src="http://192.168.0.105:8080/stream?topic=/usb_cam/image_raw">	
   <p>
