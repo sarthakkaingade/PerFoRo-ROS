@@ -130,18 +130,21 @@
   </table>
   <button id="sendMsg" type="button" onclick="pubMessage()">Transmit To PerFoRo</button>
   </form>
-  <p>
+  <p align="center">
   <button id="ModeManual" type="button" onclick="CommandMode(1)">Manual Mode</button>
+  </p>
+  <p align="center">
   <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRo(1)">Front</button>
   <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">Back</button>
   <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">Left</button>
   <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">Right</button>
-  <p>
+  </p>
+  <p align="center">
   <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
+  <p align="center">
+  <button id="ModeStop" type="button" onclick="CommandMode(3)" style="height:25px; width:100px">STOP DEMO</button>
   <p>
-  <button id="ModeStop" type="button" onclick="CommandMode(3)">STOP</button>
-  <p>
-  <img src="http://192.168.0.105:8080/stream?topic=/usb_cam/image_raw">	
+  <img align="center" src="http://192.168.0.105:8080/stream?topic=/usb_cam/image_raw">
   <p>
 </body>
 </html>
