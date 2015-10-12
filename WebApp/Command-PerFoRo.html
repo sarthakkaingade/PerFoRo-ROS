@@ -75,22 +75,18 @@
 
     }
 
-    function ChangeModeToManual() {
-    // Set the appropriate values on the message object
-    twist.linear.x = 1;
-    twist.linear.y = 0;
-    twist.linear.z = 0;
-
-    // Publish the message
-    cmdVel.publish(twist);
-
-    }
-
-    function ChangeModeToObstacleAvoidance() {
-    // Set the appropriate values on the message object
-    twist.linear.x = 0;
-    twist.linear.y = 1;
-    twist.linear.z = 0;
+    function CommandMode(command) {
+	if (command == 1)	{
+    		// Set Manual Mode
+		twist.linear.x = 1;
+    		twist.linear.y = 0;
+    		twist.linear.z = 0;
+	} else if (command == 2)	{
+		// Set Obstacle Avoidance Mode
+    		twist.linear.x = 0;
+    		twist.linear.y = 1;
+    		twist.linear.z = 0;
+	}
 
     // Publish the message
     cmdVel.publish(twist);
@@ -130,13 +126,13 @@
   <button id="sendMsg" type="button" onclick="pubMessage()">Transmit To PerFoRo</button>
   </form>
   <p>
-  <button id="ModeManual" type="button" onclick="ChangeModeToManual()">Manual Mode</button>
+  <button id="ModeManual" type="button" onclick="CommandMode(1)">Manual Mode</button>
   <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRo(1)">FRONT</button>
   <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">BACK</button>
   <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">LEFT</button>
   <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">RIGHT</button>
   <p>
-  <button id="ModeObstacleAvoidance" type="button" onclick="ChangeModeToObstacleAvoidance()">Obstacle Avoidance Mode</button>
+  <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
   <p>
   <img src="http://192.168.0.105:8080/stream?topic=/usb_cam/image_raw">	
   <p>
