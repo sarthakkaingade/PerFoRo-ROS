@@ -48,6 +48,8 @@
     }
   });
 
+  var JSMode = 0;
+
   /* This function:
    - retrieves numeric values from the text boxes
    - assigns these values to the appropriate values in the twist message
@@ -117,6 +119,39 @@
 
     }
   
+    function JSModeSelection(command) {
+    	if (command == 1)	{
+    		// Enable Joystick Mode
+		JSMode = 1;
+	} else	{
+		// Disable Joystick Mode
+    		JSMode = 0;
+	}
+    }
+
+    document.onkeydown = function(evt) {
+	if (JSMode == 1)	{
+    		evt = evt || window.event;
+    		switch (evt.keyCode) {
+		case 38:
+          		NavigatePerFoRo(1);
+			window.alert(1);
+          		break;
+		case 40:
+          		NavigatePerFoRo(2);
+			window.alert(2);
+          		break;
+        	case 37:
+          		NavigatePerFoRo(3);
+			window.alert(3);
+          		break;
+       		case 39:
+            		NavigatePerFoRo(4);
+			window.alert(4);
+          		break;
+    		}
+	}
+    };
 </script>
 </head>
 
@@ -138,6 +173,8 @@
   <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">Back</button>
   <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">Left</button>
   <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">Right</button>
+  <button id="JSModeOn" type="button" onclick="JSModeSelection(1)">JS ON</button>
+  <button id="JSModeOff" type="button" onclick="JSModeSelection(0)">JS OFF</button>
   </p>
   <p align="center">
   <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
