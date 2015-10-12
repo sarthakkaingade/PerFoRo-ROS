@@ -89,10 +89,11 @@
     		twist.linear.y = 1;
     		twist.linear.z = 0;
 	} else if (command == 3)	{
-		// Set Obstacle Avoidance Mode
+		// Stop Any Mode
     		twist.linear.x = 0;
     		twist.linear.y = 0;
     		twist.linear.z = 1;
+		JSMode = 0;
 	}
 
     // Publish the message
@@ -103,14 +104,18 @@
     function NavigatePerFoRo(command) {
     	if (command == 1)	{
     		twist.angular.x = 1;
+		//window.alert(1);
     	} else if (command == 2)	{
     		twist.angular.x = 2;
+		//window.alert(2);
     	} else if (command == 3)	{
     		twist.angular.x = 3;
+		//window.alert(3);
     	} else if (command == 4)	{
     		twist.angular.x = 4;
+		//window.alert(4);
     	} else {
-	twist.angular.x = 1;
+		twist.angular.x = 0;
         	window.alert(0);
     	}
 
@@ -135,20 +140,16 @@
     		switch (evt.keyCode) {
 		case 38:
           		NavigatePerFoRo(1);
-			window.alert(1);
-          		break;
+			break;
 		case 40:
           		NavigatePerFoRo(2);
-			window.alert(2);
-          		break;
+			break;
         	case 37:
           		NavigatePerFoRo(3);
-			window.alert(3);
-          		break;
+			break;
        		case 39:
             		NavigatePerFoRo(4);
-			window.alert(4);
-          		break;
+			break;
     		}
 	}
     };
@@ -173,8 +174,8 @@
   <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">Back</button>
   <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">Left</button>
   <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">Right</button>
-  <button id="JSModeOn" type="button" onclick="JSModeSelection(1)">JS ON</button>
-  <button id="JSModeOff" type="button" onclick="JSModeSelection(0)">JS OFF</button>
+  <button id="JSModeOn" type="button" onclick="JSModeSelection(1)">JS Control ON</button>
+  <button id="JSModeOff" type="button" onclick="JSModeSelection(0)">JS Control OFF</button>
   </p>
   <p align="center">
   <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
