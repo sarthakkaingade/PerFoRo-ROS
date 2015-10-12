@@ -97,32 +97,23 @@
 
     }
 
-    function NavigatePerFoRoFront() {
-    twist.angular.x = 1;
-    window.alert(1);
-    // Publish the message
-    cmdVel.publish(twist);
-    }
+    function NavigatePerFoRo(command) {
+    	if (command == 1)	{
+    		twist.angular.x = 1;
+    	} else if (command == 2)	{
+    		twist.angular.x = 2;
+    	} else if (command == 3)	{
+    		twist.angular.x = 3;
+    	} else if (command == 4)	{
+    		twist.angular.x = 4;
+    	} else {
+	twist.angular.x = 1;
+        	window.alert(0);
+    	}
 
-    function NavigatePerFoRoBack() {
-    twist.angular.x = 2;
-    window.alert(2);
     // Publish the message
     cmdVel.publish(twist);
-    }
 
-    function NavigatePerFoRoLeft() {
-    twist.angular.x = 3;
-    window.alert(3);
-    // Publish the message
-    cmdVel.publish(twist);
-    }
-
-    function NavigatePerFoRoRight() {
-    twist.angular.x = 4;
-    window.alert(4);
-    // Publish the message
-    cmdVel.publish(twist);
     }
   
 </script>
@@ -140,10 +131,10 @@
   </form>
   <p>
   <button id="ModeManual" type="button" onclick="ChangeModeToManual()">Manual Mode</button>
-  <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRoFront()">FRONT</button>
-  <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRoBack()">BACK</button>
-  <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRoLeft()">LEFT</button>
-  <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRoRight()">RIGHT</button>
+  <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRo(1)">FRONT</button>
+  <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">BACK</button>
+  <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">LEFT</button>
+  <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">RIGHT</button>
   <p>
   <button id="ModeObstacleAvoidance" type="button" onclick="ChangeModeToObstacleAvoidance()">Obstacle Avoidance Mode</button>
   <p>
