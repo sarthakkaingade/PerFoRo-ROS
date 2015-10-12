@@ -74,6 +74,17 @@
     cmdVel.publish(twist);
 
 }
+
+    function ChangeModeToManual() {
+    // Set the appropriate values on the message object
+    twist.linear.x = 1;
+    twist.linear.y = 0;
+    twist.linear.z = 0;
+
+    // Publish the message
+    cmdVel.publish(twist);
+
+}
   
 </script>
 </head>
@@ -87,6 +98,7 @@
     <tr><td>Angular</td><td><input id="angularText" name="angularText" type="text"/></td></tr>
   </table>
   <button id="sendMsg" type="button" onclick="pubMessage()">Transmit To PerFoRo</button>
+  <button id=ÒModeÓ type="button" onclick=ÒChangeModeToManual()Ó>Manual Mode</button>
   </form>
   <p>
   <img src="http://192.168.0.105:8080/stream?topic=/usb_cam/image_raw">	
