@@ -73,7 +73,7 @@
     // Publish the message 
     cmdVel.publish(twist);
 
-}
+    }
 
     function ChangeModeToManual() {
     // Set the appropriate values on the message object
@@ -84,7 +84,18 @@
     // Publish the message
     cmdVel.publish(twist);
 
-}
+    }
+
+    function ChangeModeToObstacleAvoidance() {
+    // Set the appropriate values on the message object
+    twist.linear.x = 0;
+    twist.linear.y = 1;
+    twist.linear.z = 0;
+
+    // Publish the message
+    cmdVel.publish(twist);
+
+    }
   
 </script>
 </head>
@@ -98,8 +109,11 @@
     <tr><td>Angular</td><td><input id="angularText" name="angularText" type="text"/></td></tr>
   </table>
   <button id="sendMsg" type="button" onclick="pubMessage()">Transmit To PerFoRo</button>
-  <button id=ÒModeÓ type="button" onclick=ÒChangeModeToManual()Ó>Manual Mode</button>
   </form>
+  <p>
+  <button id=ÒModeManualÓ type="button" onclick=ÒChangeModeToManual()Ó>Manual Mode</button>
+  <p>
+  <button id=ÒModeObstacleAvoidanceÓ type="button" onclick=ÒChangeModeToObstacleAvoidance()Ó>Obstacle Avoidance Mode</button>
   <p>
   <img src="http://192.168.0.105:8080/stream?topic=/usb_cam/image_raw">	
   <p>
