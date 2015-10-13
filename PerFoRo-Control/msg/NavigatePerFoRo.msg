@@ -1,0 +1,1 @@
+uint8 command	#Navigation Commands of PerFoRo
