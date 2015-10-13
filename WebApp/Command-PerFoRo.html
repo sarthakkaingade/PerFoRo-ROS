@@ -35,6 +35,18 @@
     messageType : 'geometry_msgs/Twist'
   });
 
+  var cmdMode = new ROSLIB.Topic({
+    ros : ros,
+    name : '/ModePerFoRo',
+    messageType : 'PerFoRoControl/MODE'
+  });
+
+  var cmdNavigate = new ROSLIB.Topic({
+    ros : ros,
+    name : '/NavigatePerFoRo',
+    messageType : 'PerFoRoControl/NavigatePerFoRo'
+  });
+
   var twist = new ROSLIB.Message({
     linear : {
       x : 0,
@@ -47,6 +59,9 @@
       z : 3
     }
   });
+
+  var Mode = new ROSLIB.Message({MODE : 0});
+  var Navigate = new ROSLIB.Message({command : 0});
 
   var JSMode = 0;
 
@@ -83,44 +98,54 @@
 		twist.linear.x = 1;
     		twist.linear.y = 0;
     		twist.linear.z = 0;
+		Mode.MODE = 1;
 	} else if (command == 2)	{
 		// Set Obstacle Avoidance Mode
     		twist.linear.x = 0;
     		twist.linear.y = 1;
     		twist.linear.z = 0;
+		Mode.MODE = 2;
 	} else if (command == 3)	{
 		// Stop Any Mode
     		twist.linear.x = 0;
     		twist.linear.y = 0;
     		twist.linear.z = 1;
+		Mode.MODE = 3;
 		JSMode = 0;
 	}
 
     // Publish the message
     cmdVel.publish(twist);
+    cmdMode.publish(Mode);
 
     }
 
     function NavigatePerFoRo(command) {
     	if (command == 1)	{
     		twist.angular.x = 1;
+		Navigate.command = 1;
 		//window.alert(1);
     	} else if (command == 2)	{
     		twist.angular.x = 2;
+		Navigate.command = 2;
 		//window.alert(2);
     	} else if (command == 3)	{
     		twist.angular.x = 3;
+		Navigate.command = 3;
 		//window.alert(3);
     	} else if (command == 4)	{
     		twist.angular.x = 4;
+		Navigate.command = 4;
 		//window.alert(4);
     	} else {
 		twist.angular.x = 0;
+		Navigate.command = 0;
         	window.alert(0);
     	}
 
     // Publish the message
     cmdVel.publish(twist);
+    cmdNavigate.publish(Navigate);
 
     }
   
