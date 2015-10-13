@@ -1,3 +1,0 @@
-single_waypoint[] WP	#Vector of single waypoints
-uint8 no_of_waypoints
-uint8 current_waypoint
