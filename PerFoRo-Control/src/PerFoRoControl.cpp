@@ -14,12 +14,12 @@ PerFoRo_Control::PerFoRo_Control() :
 
 void PerFoRo_Control::ModeCallback(const PerFoRoControl::MODE msg)
 {
-  ROS_INFO("PerFoRo Control: I heard: [%d]", msg.MODE);
+  ROS_INFO("PerFoRo Control: I heard Mode Command: [%d]", msg.MODE);
 }
 
 void PerFoRo_Control::NavigatePerFoRoCallback(const PerFoRoControl::NavigatePerFoRo msg)
 {
-  ROS_INFO("PerFoRo Control: I heard: [%d]", msg.command);
+  ROS_INFO("PerFoRo Control: I heard Navigate Command: [%d]", msg.command);
 }
 
 void PerFoRo_Control::init()
