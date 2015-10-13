@@ -9,6 +9,8 @@
 #include <PerFoRoControl/MODE.h>
 #include <PerFoRoControl/NavigatePerFoRo.h>
 
+int fd;
+
 class PerFoRo_Control
 {
 public:
@@ -27,7 +29,7 @@ protected:
 	* NodeHandle destructed will close down the node.
 	*/
 
-	int fd;
+	char buf[3];
 	char *uart_name0 = (char*)"/dev/ttyACM0";
 	char *uart_name1 = (char*)"/dev/ttyACM1";
 	char *uart_name;
