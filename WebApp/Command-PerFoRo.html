@@ -5,6 +5,8 @@
 
 <script type="text/javascript" src=./script_files/eventemitter2.min.js></script>
 <script type="text/javascript" src=./script_files/roslib.min.js></script>
+<script src=./script_files/js/jquery.min.js></script>
+<script src=./script_files/js/jquery.Jcrop.js></script>
 
 <script type="text/javascript" type="text/javascript">
   // Connecting to ROS
@@ -84,8 +86,10 @@
     angular = 0 + Number(document.getElementById('angularText').value);
 
     // Set the appropriate values on the message object
-    twist.linear.x = linear;
-    twist.angular.x = angular;
+    twist.linear.x = JSON.parse($('#x1').val());
+    twist.linear.y = JSON.parse($('#y1').val());
+    twist.angular.x = JSON.parse($('#w').val());
+    twist.angular.y = JSON.parse($('#h').val());
 
     // Publish the message 
     cmdVel.publish(twist);
@@ -178,6 +182,43 @@
     		}
 	}
     };
+    jQuery(function($){
+	var jcrop_api;
+	$('#target').Jcrop({
+		onChange:   showCoords,
+		onSelect:   showCoords,
+		onRelease:  clearCoords
+	},function(){
+	jcrop_api = this;
+	});
+
+	$('#coords').on('change','input',function(e){
+		var	x1 = $('#x1').val(),
+			x2 = $('#x2').val(),
+			y1 = $('#y1').val(),
+			y2 = $('#y2').val();
+		jcrop_api.setSelect([x1,y1,x2,y2]);
+	});
+
+  });
+
+  // Simple event handler, called from onChange and onSelect
+  // event handlers, as per the Jcrop invocation above
+  function showCoords(c)
+  {
+	$('#x1').val(c.x);
+	$('#y1').val(c.y);
+	$('#x2').val(c.x2);
+	$('#y2').val(c.y2);
+	$('#w').val(c.w);
+	$('#h').val(c.h);
+  };
+
+  function clearCoords()
+  {
+	$('#coords input').val('');
+  };
+
 </script>
 </head>
 
@@ -207,7 +248,21 @@
   <p align="center">
   <button id="ModeStop" type="button" onclick="CommandMode(3)" style="height:25px; width:100px">STOP DEMO</button>
   <p>
-  <img align="center" src="http://192.168.0.101:8080/stream?topic=/object_tracking/image_raw">
+  <img align="center" src="http://192.168.0.101:8080/stream?topic=/object_tracking/image_raw" id="target">
   <p>
+  <form id="coords"
+    class="coords"
+    onsubmit="return false;"
+    action="http://example.com/post.php">
+
+    <div class="inline-labels">
+    <label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
+    <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
+    <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
+    <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+    <label>W <input type="text" size="4" id="w" name="w" /></label>
+    <label>H <input type="text" size="4" id="h" name="h" /></label>
+    </div>
+  </form>
 </body>
 </html>
