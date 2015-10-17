@@ -49,6 +49,12 @@
     messageType : 'PerFoRoControl/NavigatePerFoRo'
   });
 
+  var cmdTarget = new ROSLIB.Topic({
+    ros : ros,
+    name : '/SelectTargetPerFoRo',
+    messageType : 'PerFoRoControl/SelectTarget'
+  });
+
   var twist = new ROSLIB.Message({
     linear : {
       x : 0,
@@ -64,6 +70,7 @@
 
   var Mode = new ROSLIB.Message({MODE : 0});
   var Navigate = new ROSLIB.Message({command : 0});
+  var Target = new ROSLIB.Message({x : 0, y : 0, width : 0, height : 0});
 
   var JSMode = 0;
 
@@ -86,10 +93,8 @@
     angular = 0 + Number(document.getElementById('angularText').value);
 
     // Set the appropriate values on the message object
-    twist.linear.x = JSON.parse($('#x1').val());
-    twist.linear.y = JSON.parse($('#y1').val());
-    twist.angular.x = JSON.parse($('#w').val());
-    twist.angular.y = JSON.parse($('#h').val());
+    twist.linear.x = linear;
+    twist.angular.x = angular;
 
     // Publish the message 
     cmdVel.publish(twist);
@@ -212,6 +217,13 @@
 	$('#y2').val(c.y2);
 	$('#w').val(c.w);
 	$('#h').val(c.h);
+	Target.x = JSON.parse($('#x1').val());
+	Target.y = JSON.parse($('#y1').val());
+	Target.width = JSON.parse($('#w').val());
+	Target.height = JSON.parse($('#h').val());
+	if ( (Target.width > 0) || (Target.height > 0) ) {
+		cmdTarget.publish(Target);
+	}
   };
 
   function clearCoords()
