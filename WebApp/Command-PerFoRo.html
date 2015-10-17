@@ -11,7 +11,7 @@
   // -----------------
 
   var ros = new ROSLIB.Ros({
-    url : 'ws://192.168.0.105:9090'		//Use IP Address of destination
+    url : 'ws://192.168.0.101:9090'		//Use IP Address of destination
   });
 
   ros.on('connection', function() {
@@ -207,7 +207,7 @@
   <p align="center">
   <button id="ModeStop" type="button" onclick="CommandMode(3)" style="height:25px; width:100px">STOP DEMO</button>
   <p>
-  <img align="center" src="http://192.168.0.105:8080/stream?topic=/ps3_eye/image_raw">
+  <img align="center" src="http://192.168.0.101:8080/stream?topic=/object_tracking/image_raw">
   <p>
 </body>
 </html>
