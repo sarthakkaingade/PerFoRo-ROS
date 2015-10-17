@@ -9,6 +9,7 @@ add_message_files(
   FILES
   MODE.msg
   NavigatePerFoRo.msg
+  SelectTarget.msg
 )
 
 ## Generate message files
@@ -26,3 +27,4 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 add_executable(PerFoRoControl src/PerFoRoControl.cpp)
 target_link_libraries(PerFoRoControl ${catkin_LIBRARIES})
 add_dependencies(PerFoRoControl PerFoRoControl_generate_messages_cpp)
+
