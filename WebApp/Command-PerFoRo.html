@@ -73,6 +73,7 @@
   var Target = new ROSLIB.Message({x : 0, y : 0, width : 0, height : 0});
 
   var JSMode = 0;
+  var PerFoRoMode = 0;
 
   /* This function:
    - retrieves numeric values from the text boxes
@@ -108,18 +109,28 @@
     		twist.linear.y = 0;
     		twist.linear.z = 0;
 		Mode.MODE = 1;
+		PerFoRoMode = 1;
 	} else if (command == 2)	{
 		// Set Obstacle Avoidance Mode
     		twist.linear.x = 0;
     		twist.linear.y = 1;
     		twist.linear.z = 0;
 		Mode.MODE = 2;
+		PerFoRoMode = 2;
 	} else if (command == 3)	{
-		// Stop Any Mode
+		// Set Follow Mode
     		twist.linear.x = 0;
     		twist.linear.y = 0;
     		twist.linear.z = 1;
 		Mode.MODE = 3;
+		PerFoRoMode = 3;
+	} else if (command == 4)	{
+		// Stop Any Mode
+		twist.linear.x = 1;
+		twist.linear.y = 1;
+		twist.linear.z = 1;
+		Mode.MODE = 4;
+		PerFoRoMode = 4;
 		JSMode = 0;
 	}
 
@@ -152,9 +163,11 @@
         	window.alert(0);
     	}
 
-    // Publish the message
-    cmdVel.publish(twist);
-    cmdNavigate.publish(Navigate);
+	// Publish the message
+	if (PerFoRoMode == 1)	{
+		cmdVel.publish(twist);
+		cmdNavigate.publish(Navigate);
+	}
 
     }
   
@@ -256,8 +269,12 @@
   </p>
   <p align="center">
   <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
+  </p>
   <p align="center">
-  <button id="ModeStop" type="button" onclick="CommandMode(3)" style="height:25px; width:100px">STOP DEMO</button>
+  <button id="ModeFollowMe" type="button" onclick="CommandMode(3)">Follow Me</button>
+  </p>
+  <p align="center">
+  <button id="ModeStop" type="button" onclick="CommandMode(4)" style="height:25px; width:100px">STOP DEMO</button>
   <p>
   <img align="center" src="http://192.168.0.101:8080/stream?topic=/object_tracking/image_raw" id="target">
   <p>
