@@ -1,0 +1,4 @@
+<launch>
+	<node pkg="PerFoRoControl" name="perforo_control" type="PerFoRoControl" output="screen"/>
+	<include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
+</launch>

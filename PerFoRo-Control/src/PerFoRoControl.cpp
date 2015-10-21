@@ -6,8 +6,8 @@
 
 PerFoRo_Control::PerFoRo_Control() :
 	_n(),
-	_mode_perforo_sub(_n.subscribe("/ModePerFoRo", 1000, &PerFoRo_Control::ModeCallback,this)),
-	_navigate_perforo_sub(_n.subscribe("/NavigatePerFoRo", 1000, &PerFoRo_Control::NavigatePerFoRoCallback,this))
+	_mode_perforo_sub(_n.subscribe("/ModePerFoRo", 1, &PerFoRo_Control::ModeCallback,this)),
+	_navigate_perforo_sub(_n.subscribe("/NavigatePerFoRo", 2, &PerFoRo_Control::NavigatePerFoRoCallback,this))
 {
 	
 }	
