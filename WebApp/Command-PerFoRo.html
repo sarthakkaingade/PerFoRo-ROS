@@ -125,12 +125,19 @@
 		Mode.MODE = 3;
 		PerFoRoMode = 3;
 	} else if (command == 4)	{
-		// Stop Any Mode
-		twist.linear.x = 1;
+		// Set Dock Mode
+		twist.linear.x = 0;
 		twist.linear.y = 1;
 		twist.linear.z = 1;
 		Mode.MODE = 4;
 		PerFoRoMode = 4;
+	}else if (command == 5)	{
+		// Stop Any Mode
+		twist.linear.x = 1;
+		twist.linear.y = 1;
+		twist.linear.z = 1;
+		Mode.MODE = 5;
+		PerFoRoMode = 5;
 		JSMode = 0;
 	}
 
@@ -274,7 +281,10 @@
   <button id="ModeFollowMe" type="button" onclick="CommandMode(3)">Follow Me</button>
   </p>
   <p align="center">
-  <button id="ModeStop" type="button" onclick="CommandMode(4)" style="height:25px; width:100px">STOP DEMO</button>
+  <button id="ModeDock" type="button" onclick="CommandMode(4)">Dock PerFoRo</button>
+  </p>
+  <p align="center">
+  <button id="ModeStop" type="button" onclick="CommandMode(5)" style="height:25px; width:100px">STOP DEMO</button>
   <p>
   <img align="center" src="http://192.168.0.103:8080/stream?topic=/object_tracking/image_raw" id="target">
   <p>
