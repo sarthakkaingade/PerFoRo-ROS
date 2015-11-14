@@ -253,7 +253,7 @@
 	$('#coords input').val('');
   };
 
-  function SmartPhoneMode(command) {
+  function SmartPhoneControl(command) {
   	if (command = true) {
 		SmartPhoneMode = 1;
 	} else {
@@ -278,38 +278,37 @@
   	document.getElementById("y").value = accel_y;
 
 	document.getElementById("z").value = accel_z;
-  }
-
-  if ((SmartPhoneMode == 1) && ((PerFoRoMode == 1))) {
-  	if (accel_z > 5.0) {
-		if ((abs(accel_x) < 5.0) && (abs(accel_y) < 5.0)) {
+  	if ((SmartPhoneMode == 1) && ((PerFoRoMode == 1))) {
+  		if (accel_z > 5) {
+			if ((Math.abs(accel_x) < 5) && (Math.abs(accel_y) < 5)) {
+				//STOP
+				Navigate.command = 5;
+			} else if ((Math.abs(accel_y) < 5)) {
+				if (accel_x < -5) {
+					//FRONT
+					Navigate.command = 1;
+				} else if (accel_x > 5) {
+					//BACK
+					Navigate.command = 2;
+				}
+			} else if ((Math.abs(accel_x) < 5)) {
+				if (accel_y < -5) {
+					//LEFT
+					Navigate.command = 3;
+				} else if (accel_y > 5) {
+					//RIGHT
+					Navigate.command = 4;
+				}
+			}
+		} else {
 			//STOP
 			Navigate.command = 5;
-		} else if ((abs(accel_y) < 5.0)) {
-			if (accel_x < -5.0) {
-				//FRONT
-				Navigate.command = 1;
-			} else if (accel_x > 5.0) {
-				//BACK
-				Navigate.command = 2;
-			}
-		} else if ((abs(accel_x) < 5.0)) {
-			if (accel_y < -5.0) {
-				//LEFT
-				Navigate.command = 3;
-			} else if (accel_y > 5.0) {
-				//RIGHT
-				Navigate.command = 4;
-			}
 		}
-	} else {
-		//STOP
-		Navigate.command = 5;
-	}
-	if (prevcommand != Navigate.command) {
-		prevcommand = Navigate.command;
-		cmdNavigate.publish(Navigate);
-	}
+		if (prevcommand != Navigate.command) {
+			prevcommand = Navigate.command;
+			cmdNavigate.publish(Navigate);
+		}
+  	}
   }
 </script>
 </head>
@@ -336,7 +335,7 @@
   <button id="JSModeOff" type="button" onclick="JSModeSelection(0)">JS Control OFF</button>
   </p>
   <p align="center">
-  <button id="ModeManualSmartPhone" type="button" onclick="SmartPhoneMode(true)">SmartPhone Control</button>
+  <button id="ModeManualSmartPhone" type="button" onclick="SmartPhoneControl(true)">SmartPhone Control</button>
   </p>
   <p align="center">
   <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
