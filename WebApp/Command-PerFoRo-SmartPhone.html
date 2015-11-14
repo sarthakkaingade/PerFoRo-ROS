@@ -75,6 +75,7 @@
   var JSMode = 0;
   var PerFoRoMode = 0;
   var SmartPhoneMode = 0;
+  var prevcommand = 0;
   /* This function:
    - retrieves numeric values from the text boxes
    - assigns these values to the appropriate values in the twist message
@@ -140,6 +141,7 @@
 		PerFoRoMode = 5;
 		JSMode = 0;
 		SmartPhoneMode = 0;
+		prevcommand = 0;
 	}
 
     // Publish the message
@@ -278,6 +280,37 @@
 	document.getElementById("z").value = accel_z;
   }
 
+  if ((SmartPhoneMode = 1) && ((PerFoRoMode == 1))) {
+  	if (accel_z > 5.0) {
+		if ((abs(accel_x) < 5.0) && (abs(accel_y) < 5.0)) {
+			//STOP
+			Navigate.command = 5;
+		} else if ((abs(accel_y) < 5.0)) {
+			if (accel_x < -5.0) {
+				//FRONT
+				Navigate.command = 1;
+			} else if (accel_x > 5.0) {
+				//BACK
+				Navigate.command = 2;
+			}
+		} else if ((abs(accel_x) < 5.0)) {
+			if (accel_y < -5.0) {
+				//LEFT
+				Navigate.command = 3;
+			} else if (accel_y > 5.0) {
+				//RIGHT
+				Navigate.command = 4;
+			}
+		}
+	} else {
+		//STOP
+		Navigate.command = 5;
+	}
+	if (prevcommand != Navigate.command) {
+		prevcommand = Navigate.command;
+		cmdNavigate.publish(Navigate);
+	}
+  }
 </script>
 </head>
 
