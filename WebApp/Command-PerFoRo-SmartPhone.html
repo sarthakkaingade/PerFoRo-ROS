@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<script type="text/javascript" src=./script_files/eventemitter2.min.js></script>
+<script type="text/javascript" src=./script_files/roslib.min.js></script>
+<script src=./script_files/js/jquery.min.js></script>
+<script src=./script_files/js/jquery.Jcrop.js></script>
+
+<script type="text/javascript" type="text/javascript">
+  // Connecting to ROS
+  // -----------------
+
+  var ros = new ROSLIB.Ros({
+    url : 'ws://192.168.0.103:9090'		//Use IP Address of destination
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+
+  // Publishing a Topic
+  // ------------------
+
+  var cmdVel = new ROSLIB.Topic({
+    ros : ros,
+    name : '/cmd_vel',
+    messageType : 'geometry_msgs/Twist'
+  });
+
+  var cmdMode = new ROSLIB.Topic({
+    ros : ros,
+    name : '/ModePerFoRo',
+    messageType : 'PerFoRoControl/MODE'
+  });
+
+  var cmdNavigate = new ROSLIB.Topic({
+    ros : ros,
+    name : '/NavigatePerFoRo',
+    messageType : 'PerFoRoControl/NavigatePerFoRo'
+  });
+
+  var cmdTarget = new ROSLIB.Topic({
+    ros : ros,
+    name : '/SelectTargetPerFoRo',
+    messageType : 'PerFoRoControl/SelectTarget'
+  });
+
+  var twist = new ROSLIB.Message({
+    linear : {
+      x : 0,
+      y : 0,
+      z : 0
+    },
+    angular : {
+      x : 1,
+      y : 2,
+      z : 3
+    }
+  });
+
+  var Mode = new ROSLIB.Message({MODE : 0});
+  var Navigate = new ROSLIB.Message({command : 0});
+  var Target = new ROSLIB.Message({x : 0, y : 0, width : 0, height : 0});
+
+  var JSMode = 0;
+  var PerFoRoMode = 0;
+
+  /* This function:
+   - retrieves numeric values from the text boxes
+   - assigns these values to the appropriate values in the twist message
+   - publishes the message to the cmd_vel topic.
+  */
+  function pubMessage() {
+    /**
+    Set the appropriate values on the twist message object according to values in text boxes
+    It seems that turtlesim only uses the x property of the linear object 
+    and the z property of the angular object
+    **/
+    var linear = 0.0;
+    var angular = 0.0;
+
+    // get values from text input fields. Note for simplicity we are not validating.
+    linear = 0 + Number(document.getElementById('linearText').value);
+    angular = 0 + Number(document.getElementById('angularText').value);
+
+    // Set the appropriate values on the message object
+    twist.linear.x = linear;
+    twist.angular.x = angular;
+
+    // Publish the message 
+    cmdVel.publish(twist);
+
+    }
+
+    function CommandMode(command) {
+	if (command == 1)	{
+    		// Set Manual Mode
+		twist.linear.x = 1;
+    		twist.linear.y = 0;
+    		twist.linear.z = 0;
+		Mode.MODE = 1;
+		PerFoRoMode = 1;
+	} else if (command == 2)	{
+		// Set Obstacle Avoidance Mode
+    		twist.linear.x = 0;
+    		twist.linear.y = 1;
+    		twist.linear.z = 0;
+		Mode.MODE = 2;
+		PerFoRoMode = 2;
+	} else if (command == 3)	{
+		// Set Follow Mode
+    		twist.linear.x = 0;
+    		twist.linear.y = 0;
+    		twist.linear.z = 1;
+		Mode.MODE = 3;
+		PerFoRoMode = 3;
+	} else if (command == 4)	{
+		// Set Dock Mode
+		twist.linear.x = 0;
+		twist.linear.y = 1;
+		twist.linear.z = 1;
+		Mode.MODE = 4;
+		PerFoRoMode = 4;
+	}else if (command == 5)	{
+		// Stop Any Mode
+		twist.linear.x = 1;
+		twist.linear.y = 1;
+		twist.linear.z = 1;
+		Mode.MODE = 5;
+		PerFoRoMode = 5;
+		JSMode = 0;
+	}
+
+    // Publish the message
+    cmdVel.publish(twist);
+    cmdMode.publish(Mode);
+
+    }
+
+    function NavigatePerFoRo(command) {
+    	if (command == 1)	{
+    		twist.angular.x = 1;
+		Navigate.command = 1;
+		//window.alert(1);
+    	} else if (command == 2)	{
+    		twist.angular.x = 2;
+		Navigate.command = 2;
+		//window.alert(2);
+    	} else if (command == 3)	{
+    		twist.angular.x = 3;
+		Navigate.command = 3;
+		//window.alert(3);
+    	} else if (command == 4)	{
+    		twist.angular.x = 4;
+		Navigate.command = 4;
+		//window.alert(4);
+    	} else {
+		twist.angular.x = 0;
+		Navigate.command = 0;
+        	window.alert(0);
+    	}
+
+	// Publish the message
+	if (PerFoRoMode == 1)	{
+		cmdVel.publish(twist);
+		cmdNavigate.publish(Navigate);
+	}
+
+    }
+  
+    function JSModeSelection(command) {
+    	if (command == 1)	{
+    		// Enable Joystick Mode
+		JSMode = 1;
+	} else	{
+		// Disable Joystick Mode
+    		JSMode = 0;
+	}
+    }
+
+    document.onkeydown = function(evt) {
+	if (JSMode == 1)	{
+    		evt = evt || window.event;
+    		switch (evt.keyCode) {
+		case 38:
+          		NavigatePerFoRo(1);
+			break;
+		case 40:
+          		NavigatePerFoRo(2);
+			break;
+        	case 37:
+          		NavigatePerFoRo(3);
+			break;
+       		case 39:
+            		NavigatePerFoRo(4);
+			break;
+    		}
+	}
+    };
+    jQuery(function($){
+	var jcrop_api;
+	$('#target').Jcrop({
+		onSelect:   showCoords,
+		onRelease:  clearCoords
+	},function(){
+	jcrop_api = this;
+	});
+
+	$('#coords').on('change','input',function(e){
+		var	x1 = $('#x1').val(),
+			x2 = $('#x2').val(),
+			y1 = $('#y1').val(),
+			y2 = $('#y2').val();
+		jcrop_api.setSelect([x1,y1,x2,y2]);
+	});
+
+  });
+
+  // Simple event handler, called from onChange and onSelect
+  // event handlers, as per the Jcrop invocation above
+  function showCoords(c)
+  {
+	$('#x1').val(c.x);
+	$('#y1').val(c.y);
+	$('#x2').val(c.x2);
+	$('#y2').val(c.y2);
+	$('#w').val(c.w);
+	$('#h').val(c.h);
+	Target.x = JSON.parse($('#x1').val());
+	Target.y = JSON.parse($('#y1').val());
+	Target.width = JSON.parse($('#w').val());
+	Target.height = JSON.parse($('#h').val());
+	if ( (Target.width > 0) || (Target.height > 0) ) {
+		cmdTarget.publish(Target);
+	}
+  };
+
+  function clearCoords()
+  {
+	$('#coords input').val('');
+  };
+
+  if (window.DeviceMotionEvent == undefined) {
+  	//No accelerometer is present. Use buttons. 
+	alert("no accelerometer");
+  } else	{
+  	alert("accelerometer found");
+	window.addEventListener("devicemotion", accelerometerUpdate, true);
+  }
+
+  function accelerometerUpdate(e) {
+  	var accel_x = event.accelerationIncludingGravity.x*1;
+	var accel_y = event.accelerationIncludingGravity.y*1;
+	var accel_z = event.accelerationIncludingGravity.z*1;
+	document.getElementById("x").value = accel_x;
+
+  	document.getElementById("y").value = accel_y;
+
+	document.getElementById("z").value = accel_z;
+  }
+
+</script>
+</head>
+
+<body>
+  <h1 align="center">PerFoRo Control Station</h1>
+  <form name="Data transmit">
+  <p></p>
+  <table>
+    <tr><td>Linear</td><td><input id="linearText" name="linearText" type="text"/></td></tr>
+    <tr><td>Angular</td><td><input id="angularText" name="angularText" type="text"/></td></tr>
+  </table>
+  <button id="sendMsg" type="button" onclick="pubMessage()">Transmit To PerFoRo</button>
+  </form>
+  <p align="center">
+  <button id="ModeManual" type="button" onclick="CommandMode(1)">Manual Mode</button>
+  </p>
+  <p align="center">
+  <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRo(1)">Front</button>
+  <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">Back</button>
+  <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">Left</button>
+  <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">Right</button>
+  <button id="JSModeOn" type="button" onclick="JSModeSelection(1)">JS Control ON</button>
+  <button id="JSModeOff" type="button" onclick="JSModeSelection(0)">JS Control OFF</button>
+  </p>
+  <p align="center">
+  <button id="ModeObstacleAvoidance" type="button" onclick="CommandMode(2)">Obstacle Avoidance Mode</button>
+  </p>
+  <p align="center">
+  <button id="ModeFollowMe" type="button" onclick="CommandMode(3)">Follow Me</button>
+  </p>
+  <p align="center">
+  <button id="ModeDock" type="button" onclick="CommandMode(4)">Dock PerFoRo</button>
+  </p>
+  <p align="center">
+  <button id="ModeStop" type="button" onclick="CommandMode(5)" style="height:25px; width:100px">STOP DEMO</button>
+  <p>
+  <img align="center" src="http://192.168.0.103:8080/stream?topic=/object_tracking/image_raw" id="target">
+  <p>
+  <form id="coords"
+    class="coords"
+    onsubmit="return false;"
+    action="http://example.com/post.php">
+
+    <div class="inline-labels">
+    <label>X1 <input type="text" size="4" id="x1" name="x1" /></label>
+    <label>Y1 <input type="text" size="4" id="y1" name="y1" /></label>
+    <label>X2 <input type="text" size="4" id="x2" name="x2" /></label>
+    <label>Y2 <input type="text" size="4" id="y2" name="y2" /></label>
+    <label>W <input type="text" size="4" id="w" name="w" /></label>
+    <label>H <input type="text" size="4" id="h" name="h" /></label>
+    </div>
+  </form>
+  <table>
+    <tr><td>Accel - X</td><td><input id="x" name="Accel - X" type="text"/></td></tr>
+    <tr><td>Accel - Y</td><td><input id="y" name="Accel - Y" type="text"/></td></tr>
+    <tr><td>Accel - Z</td><td><input id="z" name="Accel - Z" type="text"/></td></tr>
+  </table>
+</body>
+</html>
