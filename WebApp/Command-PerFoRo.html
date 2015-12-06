@@ -265,22 +265,20 @@
 
 <body>
   <h1 align="center">PerFoRo Control Station</h1>
-  <form name="Data transmit">
-  <p></p>
-  <table>
-    <tr><td>Linear</td><td><input id="linearText" name="linearText" type="text"/></td></tr>
-    <tr><td>Angular</td><td><input id="angularText" name="angularText" type="text"/></td></tr>
-  </table>
-  <button id="sendMsg" type="button" onclick="pubMessage()">Transmit To PerFoRo</button>
-  </form>
   <p align="center">
   <button id="ModeManual" type="button" onclick="CommandMode(1)">Manual Mode</button>
   </p>
-  <p align="center">
+  <table align="center">
+	<tbody><tr>
+  	<td></td><td>
   <button id="NavigatePerFoRoFront" type="button" onclick="NavigatePerFoRo(1)">Front</button>
-  <button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">Back</button>
-  <button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">Left</button>
-  <button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">Right</button>
+	</td></tr>	
+  <tr><td><button id="NavigatePerFoRoLeft" type="button" onclick="NavigatePerFoRo(3)">Left</button></td>
+  <td></td><td></td><td><button id="NavigatePerFoRoRight" type="button" onclick="NavigatePerFoRo(4)">Right</button><td></tr>
+  <tr><td></td><td><button id="NavigatePerFoRoBack" type="button" onclick="NavigatePerFoRo(2)">Back</button><td></tr>
+	</tbody></table>
+	<p></p>
+	<p align="center">
   <button id="JSModeOn" type="button" onclick="JSModeSelection(1)">JS Control ON</button>
   <button id="JSModeOff" type="button" onclick="JSModeSelection(0)">JS Control OFF</button>
   </p>
