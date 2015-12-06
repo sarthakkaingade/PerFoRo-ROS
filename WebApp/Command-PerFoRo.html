@@ -2,6 +2,20 @@
 <html>
 <head>
 <meta charset="utf-8" />
+<meta name="viewport"    content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+	
+<title>PerFoRo Control Station</title>
+	
+<!-- Bootstrap itself -->
+<link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+<!-- Custom styles -->
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Fonts -->
+<link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href='http://fonts.googleapis.com/css?family=Wire+One' rel='stylesheet' type='text/css'>
 
 <script type="text/javascript" src=./script_files/eventemitter2.min.js></script>
 <script type="text/javascript" src=./script_files/roslib.min.js></script>
@@ -284,7 +298,7 @@
   <button id="ModeDock" type="button" onclick="CommandMode(4)">Dock PerFoRo</button>
   </p>
   <p align="center">
-  <button id="ModeStop" type="button" onclick="CommandMode(5)" style="height:25px; width:100px">STOP DEMO</button>
+  <button id="ModeStop" type="button" onclick="CommandMode(5)">STOP DEMO</button>
   <p>
   <img align="center" src="http://192.168.0.103:8080/stream?topic=/object_tracking/image_raw" id="target">
   <p>
