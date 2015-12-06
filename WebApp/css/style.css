@@ -245,35 +245,6 @@ a:hover, a:active { color:#fff; text-decoration: underline; }
 	margin:0 auto;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /***********************************************************/
 /*                   Theme: text shadows                   */
 /***********************************************************/
@@ -449,6 +420,10 @@ a:hover, a:active { color:#fff; text-decoration: underline; }
 				background: rgba(255, 255, 255, 0.15);
 				box-shadow: inset 0 0 0 1px #fff;
 			}
+
+h1 {
+    color: black;
+}
 
 
 
